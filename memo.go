@@ -32,7 +32,7 @@ func Memoize(fptr interface{}) error {
 			return val
 		}
 		result := fOrig.Call(in)
-		m.storeVal(key,result)
+		m.storeVal(key, result)
 		//fmt.Printf("stored memoed value %v\n", result)
 		return result
 	})
@@ -50,37 +50,36 @@ type memoHolder interface {
 
 type memoSmall map[[3]reflect.Value][]reflect.Value
 
-func (ms memoSmall)buildKey(in []reflect.Value) memoKey {
+func (ms memoSmall) buildKey(in []reflect.Value) memoKey {
 	key := [3]reflect.Value{}
-	copy(key[:],in)
+	copy(key[:], in)
 	return memoKey(key)
 }
 
-func(ms memoSmall)hasVal(key memoKey) ([]reflect.Value, bool) {
+func (ms memoSmall) hasVal(key memoKey) ([]reflect.Value, bool) {
 	v, ok := ms[key.([3]reflect.Value)]
 	return v, ok
 }
 
-func (ms memoSmall)storeVal(key memoKey, result []reflect.Value) {
+func (ms memoSmall) storeVal(key memoKey, result []reflect.Value) {
 	ms[key.([3]reflect.Value)] = result
 }
 
 type memoBig map[string][]reflect.Value
 
-func (mb memoBig)buildKey(in []reflect.Value) memoKey {
-        key := ""
-        for _, val := range in {
-            key += fmt.Sprintf("%v-", val.Interface())
-        }
+func (mb memoBig) buildKey(in []reflect.Value) memoKey {
+	key := ""
+	for _, val := range in {
+		key += fmt.Sprintf("%v-", val.Interface())
+	}
 	return memoKey(key)
 }
 
-func (mb memoBig)hasVal(key memoKey) ([]reflect.Value, bool) {
+func (mb memoBig) hasVal(key memoKey) ([]reflect.Value, bool) {
 	v, ok := mb[key.(string)]
 	return v, ok
 }
 
-func (mb memoBig)storeVal(key memoKey, result []reflect.Value) {
-	mb[key.(string)]=result
+func (mb memoBig) storeVal(key memoKey, result []reflect.Value) {
+	mb[key.(string)] = result
 }
-

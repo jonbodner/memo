@@ -23,27 +23,27 @@ func mult(a, b int) int {
 func TestLongMemo(t *testing.T) {
 	localSumCount := 0
 
-	localSum := func(a, b,c,d,e,f,g,h int) int {
+	localSum := func(a, b, c, d, e, f, g, h int) int {
 		localSumCount++
-		return a+b+c+d+e+f+g+h
+		return a + b + c + d + e + f + g + h
 	}
 	Memoize(&localSum)
-	result := localSum(2, 1, 1, 1, 1,1,1,1)
+	result := localSum(2, 1, 1, 1, 1, 1, 1, 1)
 	if result != 9 {
 		t.Fatalf("expected sum of 9, got %v\n", result)
 	}
-	result2 := localSum(2, 1,1,1,1,1,1,1)
+	result2 := localSum(2, 1, 1, 1, 1, 1, 1, 1)
 	if result2 != 9 {
 		t.Fatalf("expected sum of 9, got %v\n", result2)
 	}
 	if localSumCount != 1 {
 		t.Fatalf("expected sum to only be called once, was %v\n", sumCount)
 	}
-	result3 := localSum(2, 3,1,1,1,1,1,1)
+	result3 := localSum(2, 3, 1, 1, 1, 1, 1, 1)
 	if result3 != 11 {
 		t.Fatalf("expected sum of 11, got %v\n", result3)
 	}
-	result4 := localSum(2, 3,1,1,1,1,1,1)
+	result4 := localSum(2, 3, 1, 1, 1, 1, 1, 1)
 	if result4 != 11 {
 		t.Fatalf("expected sum of 11, got %v\n", result4)
 	}
@@ -223,11 +223,11 @@ func BenchmarkFib(b *testing.B) {
 }
 
 func BenchmarkBig(b *testing.B) {
-	localSum := func(a,b,c,d,e,f,g,h int) int {
-		return a+b+c+d+e+f+g+h
+	localSum := func(a, b, c, d, e, f, g, h int) int {
+		return a + b + c + d + e + f + g + h
 	}
 	Memoize(&localSum)
-	for i := 0 ;i< b.N;i++ {
-		localSum(1,2,3,4,5,6,7,8)
+	for i := 0; i < b.N; i++ {
+		localSum(1, 2, 3, 4, 5, 6, 7, 8)
 	}
 }
